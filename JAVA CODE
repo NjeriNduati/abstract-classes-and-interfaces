@@ -1,0 +1,80 @@
+// Interface
+interface DataSource {
+    void execute();
+}
+
+// Abstract Class
+abstract class DataSourceOperation {
+    protected DataSource dataSource;
+
+    public abstract void update();
+    public abstract void view();
+    public abstract void delete();
+
+    public void performOperation(DataSource dataSource) {
+        this.dataSource = dataSource;
+        dataSource.execute();
+    }
+}
+
+// Concrete Class
+class Account extends DataSourceOperation {
+    private int id;
+    private String name;
+    private DataSource myData;
+
+    @Override
+    public void update() {
+        dataSource.execute();
+    }
+
+    @Override
+    public void view() {
+        dataSource.execute();
+    }
+
+    @Override
+    public void delete() {
+        dataSource.execute();
+    }
+
+    public void performOperation(DataSource dataSource) {
+        this.myData = dataSource;
+        super.performOperation(dataSource);
+    }
+}
+
+// Concrete Class
+class Admin extends Account {
+    private String authPassword;
+    private String adminId;
+    private String name;
+    private String password;
+}
+
+// Concrete Class
+class User extends Account {
+    private String userId;
+    private String name;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Example usage
+        DataSource dataSource = new DataSource() {
+            @Override
+            public void execute() {
+                System.out.println("DataSource executed");
+            }
+        };
+
+        Account account = new Account();
+        account.performOperation(dataSource);
+
+        Admin admin = new Admin();
+        admin.performOperation(dataSource);
+
+        User user = new User();
+        user.performOperation(dataSource);
+    }
+}
